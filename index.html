@@ -1,261 +1,175 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Подбор финансовых решений</title>
-<link rel="icon" href="https://i.imgur.com/w8yRjdW.png">
-
 <style>
-:root {
-  --bg: #f7f9fc;
-  --text: #1d2a33;
-  --sub: #546475;
-  --card: #fff;
-  --accent: #2f6feb;
-  --border: #e0e6ef;
+:root{
+  --bg:#f7f9fc;--card:#fff;--text:#1d2a33;--muted:#546475;--accent:#2f6feb;--border:#e6edf8;--shadow:0 6px 18px rgba(17,24,39,0.06)
 }
-.dark {
-  --bg: #0f141a;
-  --text: #e9f0f6;
-  --sub: #9db0c2;
-  --card: #18222e;
-  --accent: #508dff;
-  --border: #304154;
+.dark{
+  --bg:#0f141a;--card:#18222e;--text:#e9f0f6;--muted:#9db0c2;--accent:#4f86ff;--border:#2a3846;--shadow:0 6px 22px rgba(0,0,0,0.45)
 }
-body {
-  margin: 0;
-  font-family: system-ui, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);transition:.25s
 }
-header {
-  background: var(--accent);
-  padding: 18px;
-  text-align: center;
-  color: white;
-  font-size: 20px;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.header{
+  position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);
+  padding:14px;text-align:center;font-weight:600;z-index:10
 }
-.theme-toggle {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  background: rgba(255,255,255,0.2);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  cursor: pointer;
-  color: #fff;
+.theme-toggle{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  border:1px solid var(--border);background:transparent;border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--text)
 }
-.container {
-  max-width: 720px;
-  margin: auto;
-  padding: 18px;
+.container{max-width:820px;margin:20px auto;padding:0 18px 60px}
+.info{
+  background:linear-gradient(180deg,rgba(47,111,235,.06),rgba(47,111,235,.03));
+  border-left:4px solid var(--accent);padding:14px;border-radius:10px;margin-bottom:18px;color:var(--muted);font-size:14px
 }
-.info {
-  background: rgba(46,107,235,0.08);
-  padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 25px;
-  font-size:14px;
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.badge{
+  background:var(--card);border:1px solid var(--border);padding:6px 10px;border-radius:8px;
+  color:var(--muted);font-size:13px;box-shadow:var(--shadow)
 }
-.offer-card {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  border: 1px solid var(--border);
-  animation: fade 0.5s ease;
+.grid{display:grid;gap:14px}
+.offer{
+  background:var(--card);border-radius:12px;padding:14px;display:flex;gap:14px;align-items:center;
+  border:1px solid var(--border);box-shadow:var(--shadow);transition:.15s
 }
-.offer-card img {
-  width: 55px;
-  height: 55px;
-  border-radius: 12px;
-  object-fit: contain;
-  background: white;
-  border: 1px solid var(--border);
-  padding: 8px;
-  transition: transform .2s;
+.offer:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(17,24,39,0.12)}
+.logo{
+  width:58px;height:58px;border-radius:12px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;overflow:hidden
 }
-.offer-card:hover img {
-  transform: scale(1.07);
+.offer__title{font-size:16px;font-weight:600}
+.offer__desc{font-size:14px;color:var(--muted);margin:4px 0 10px}
+.btn{
+  background:var(--accent);color:#fff;border:none;padding:10px 14px;
+  border-radius:8px;font-weight:600;text-decoration:none;font-size:14px;display:inline-block
 }
-.offer-info h3 { margin: 0; font-size: 18px; }
-.offer-info p { margin: 4px 0 8px; font-size: 14px; color: var(--sub); }
-.btn {
-  background: var(--accent);
-  color: white;
-  padding: 10px 16px;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 8px;
-  font-size: 14px;
-  display: inline-block;
+.section-title{margin:22px 0 10px;font-size:18px;font-weight:600}
+.faq{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;padding:10px}
+.faq button{width:100%;text-align:left;background:0;border:0;color:var(--text);font-size:15px;font-weight:600;padding:8px 0;cursor:pointer}
+.faq p{margin:6px 0 0;font-size:14px;color:var(--muted);display:none}
+.faq.open p{display:block}
+.footer{text-align:center;color:var(--muted);font-size:13px;margin-top:24px}
+.float-cta{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:var(--accent);
+  color:#fff;padding:12px 20px;border-radius:12px;font-weight:700;box-shadow:0 12px 30px rgba(47,111,235,.18);display:none
 }
-.badges {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-.badge {
-  background: var(--card);
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  border: 1px solid var(--border);
-}
-h2 { margin-top: 28px; font-size: 18px; }
-.faq {
-  background: var(--card);
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  border: 1px solid var(--border);
-  cursor: pointer;
-}
-.faq p { display: none; color: var(--sub); margin-top:5px; font-size: 14px; }
-footer {
-  text-align: center;
-  padding: 16px;
-  font-size: 13px;
-  color: var(--sub);
-}
-footer a { color: var(--accent); text-decoration: none; }
-.float-cta {
-  position: fixed;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--accent);
-  color: #fff;
-  padding: 12px 26px;
-  border-radius: 10px;
-  font-weight: 600;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  display: none;
-  z-index: 50;
-}
-@keyframes fade { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
 </style>
 </head>
 
 <body>
-
-<header>
-Подбор финансовых решений
-<div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+<header class="header">
+  Подбор финансовых решений
+  <button id="themeToggle" class="theme-toggle">🌓</button>
 </header>
 
 <div class="container">
 
-<div class="info">
-Мы подбираем финансовые предложения от проверенных компаний.  
-Не запрашиваем данные, не выдаём займы — вы переходите на официальные сайты.
-</div>
+<div class="info">Мы не выдаём займы и не собираем данные — только подбираем и перенаправляем на официальные сайты.</div>
 
 <div class="badges">
   <div class="badge">✅ Проверенные компании</div>
   <div class="badge">🔒 Безопасные переходы</div>
-  <div class="badge">📄 Официальные сайты</div>
-  <div class="badge">💬 Бесплатный сервис</div>
+  <div class="badge">🏦 Официальные сайты</div>
+  <div class="badge">💬 Бесплатно</div>
 </div>
 
-<!-- OFFERS -->
+<h2 class="section-title">Популярные предложения</h2>
 
-<div class="offer-card">
-  <img src="https://i.imgur.com/P1QxgQ1.png">
-  <div class="offer-info">
-    <h3>еКапуста</h3>
-    <p>Оформление онлайн</p>
-    <a class="btn" href="https://refk.in/05gxd" target="_blank">Посмотреть предложение</a>
+<div class="grid">
+
+<!-- eKapusta -->
+<div class="offer">
+  <div class="logo">
+    <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#4CAF50"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">K</text></svg>
+  </div>
+  <div>
+    <div class="offer__title">еКапуста</div>
+    <div class="offer__desc">Онлайн оформление</div>
+    <a class="btn" href="https://refk.in/05gxd" target="_blank">Посмотреть</a>
   </div>
 </div>
 
-<div class="offer-card">
-  <img src="https://i.imgur.com/1QSfbvx.png">
-  <div class="offer-info">
-    <h3>МикроЗайм</h3>
-    <p>Минимум данных</p>
-    <a class="btn" href="https://refk.in/05h9h" target="_blank">Посмотреть предложение</a>
+<!-- МикроЗайм -->
+<div class="offer">
+  <div class="logo">
+    <svg viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="10" fill="#0066FF"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">MZ</text></svg>
+  </div>
+  <div>
+    <div class="offer__title">МикроЗайм</div>
+    <div class="offer__desc">Минимум документов</div>
+    <a class="btn" href="https://refk.in/05h9h" target="_blank">Посмотреть</a>
   </div>
 </div>
 
-<div class="offer-card">
-  <img src="https://i.imgur.com/dFBfdgi.png">
-  <div class="offer-info">
-    <h3>Lime</h3>
-    <p>Современный сервис</p>
-    <a class="btn" href="https://refk.in/05h9i" target="_blank">Посмотреть предложение</a>
+<!-- Lime -->
+<div class="offer">
+  <div class="logo">
+    <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#9CCC65"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">L</text></svg>
+  </div>
+  <div>
+    <div class="offer__title">Lime</div>
+    <div class="offer__desc">Быстрое решение онлайн</div>
+    <a class="btn" href="https://refk.in/05h9i" target="_blank">Посмотреть</a>
   </div>
 </div>
 
-<div class="offer-card">
-  <img src="https://i.imgur.com/0ozH3XY.png">
-  <div class="offer-info">
-    <h3>Max.Credit</h3>
-    <p>Гибкие условия</p>
-    <a class="btn" href="https://refk.in/05h9j" target="_blank">Посмотреть предложение</a>
+<!-- Max.Credit -->
+<div class="offer">
+  <div class="logo">
+    <svg viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="10" fill="#FF9800"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">MC</text></svg>
+  </div>
+  <div>
+    <div class="offer__title">Max.Credit</div>
+    <div class="offer__desc">Удобные условия</div>
+    <a class="btn" href="https://refk.in/05h9j" target="_blank">Посмотреть</a>
   </div>
 </div>
 
-<div class="offer-card">
-  <img src="https://i.imgur.com/95wT54v.png">
-  <div class="offer-info">
-    <h3>Rocketman</h3>
-    <p>Быстрое рассмотрение</p>
-    <a class="btn" href="https://refk.in/05h9k" target="_blank">Посмотреть предложение</a>
+<!-- Rocketman -->
+<div class="offer">
+  <div class="logo">
+    <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#673AB7"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">R</text></svg>
+  </div>
+  <div>
+    <div class="offer__title">Rocketman</div>
+    <div class="offer__desc">Проверенный сервис</div>
+    <a class="btn" href="https://refk.in/05h9k" target="_blank">Посмотреть</a>
   </div>
 </div>
 
-<h2>Почему можно доверять</h2>
-<p>Мы не посредники и не кредиторы — это информационный сервис.</p>
-
-<ul style="color:var(--sub);line-height:1.6;font-size:14px;">
-<li>Работаем официально</li>
-<li>Только прямые ссылки на сайты компаний</li>
-li>Не собираем личные данные</li>
-<li>Прозрачность и безопасность</li>
-</ul>
-
-<h2>Частые вопросы</h2>
-
-<div class="faq" onclick="toggleFaq(this)">Зачем вы это делаете?
-<p>Мы — информационный сервис. Компании оплачивают размещение, для вас всё бесплатно.</p>
 </div>
 
-<div class="faq" onclick="toggleFaq(this)">Почему вы не берёте паспорт/телефон?
-<p>Мы не обрабатываем заявки — только направляем на официальные сайты.</p>
+<h2 class="section-title">Ответы на вопросы</h2>
+
+<div class="faq"><button>Это безопасно?</button><p>Да, переходы идут только на официальные сайты партнёров.</p></div>
+<div class="faq"><button>Мы собираем данные?</button><p>Нет, личная информация не запрашивается.</p></div>
+<div class="faq"><button>Мы даём займы?</button><p>Нет, мы только помогаем выбрать предложение.</p></div>
+
+<div class="footer">
+  Самозанятый: Округин С.Е · Москва<br>Информация справочная, не оферта.
 </div>
 
-<div class="faq" onclick="toggleFaq(this)">Это безопасно?
-<p>Да. Все ссылки ведут на лицензированные финансовые организации.</p>
-</div>
+<a class="float-cta" id="floatBtn" href="https://refk.in/05gxd" target="_blank">Подобрать предложение</a>
 
 </div>
-
-<a class="float-cta" id="floatBtn" href="#top">Подобрать предложение</a>
-
-<footer>
-Самозанятый: Округин С.Е. · Москва, РФ<br><br>
-<a href="#">Политика конфиденциальности</a> · 
-<a href="#">Пользовательское соглашение</a>
-<br><br>
-<small>Информация справочная. Не является финансовой услугой.</small>
-</footer>
 
 <script>
-function toggleFaq(el){el.querySelector("p").style.display=el.querySelector("p").style.display==="block"?"none":"block";}
-function toggleTheme(){document.body.classList.toggle("dark");}
-window.addEventListener("scroll",()=>{document.getElementById("floatBtn").style.display=scrollY>350?"block":"none";});
+const btn=document.getElementById("themeToggle");
+btn.onclick=()=>{document.body.classList.toggle("dark");};
+document.querySelectorAll(".faq").forEach(f=>{
+  const b=f.querySelector("button");
+  b.onclick=()=>{f.classList.toggle("open");}
+});
+const float=document.getElementById("floatBtn");
+window.addEventListener("scroll",()=>{
+  float.style.display=window.scrollY>350?"block":"none";
+});
 </script>
 
 </body>
