@@ -3,369 +3,372 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Подбор финансовых решений</title>
+<title>Подбор финансовых предложений</title>
 <style>
-/* ========== Тема: Нежный фин-минимализм ========== */
+/* -------------------- Palette & vars -------------------- */
 :root{
-  --bg: #fbfdfe;
-  --card: #ffffff;
-  --text: #112028;
-  --muted: #5a6b75;
-  --accent: #3b82f6;        /* мягкий синий акцент */
-  --accent-2: #4db67d;      /* мягкий зелёный для иконок */
-  --glass: rgba(18,32,40,0.04);
+  --bg: #fbfdff;
+  --panel: #ffffff;
+  --muted: #5b6b78;
+  --text: #102027;
+  --accent: #2f7ced;      /* friendly blue */
+  --accent-soft: #7ccbbf; /* soft green */
+  --glass: rgba(47,124,237,0.06);
   --border: #e6eef6;
-  --radius: 12px;
-  --shadow: 0 10px 24px rgba(16,32,48,0.06);
-  --shadow-small: 0 6px 18px rgba(16,32,48,0.04);
+  --radius: 14px;
+  --card-shadow: 0 12px 28px rgba(17,24,39,0.06);
+  --ease: cubic-bezier(.2,.9,.3,1);
 }
-.dark{
-  --bg: #0b1114;
-  --card: #0f1620;
-  --text: #e6f0f7;
-  --muted: #9fb2bf;
-  --accent: #5fa0ff;
-  --accent-2: #61d79a;
-  --glass: rgba(255,255,255,0.02);
-  --border: #1b2732;
-  --shadow: 0 14px 32px rgba(0,0,0,0.6);
-  --shadow-small: 0 8px 20px rgba(0,0,0,0.4);
+.dark { 
+  --bg: #071016; --panel:#0f1a1f; --muted:#9fb0ba; --text:#e6f2f7;
+  --accent:#5fa1ff; --accent-soft:#66d3b4; --glass: rgba(255,255,255,0.02);
+  --border:#15303a; --card-shadow: 0 16px 40px rgba(0,0,0,0.45);
 }
 
-/* ========== Базовые ========== */
+/* -------------------- Base -------------------- */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  transition:background .28s ease, color .28s ease;
+  margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale; transition: background .28s var(--ease), color .28s var(--ease);
   line-height:1.45;
-  padding-bottom:80px;
 }
 
-/* ========== Header ========== */
+/* -------------------- Header -------------------- */
 .header {
-  position:sticky;
-  top:0;
-  z-index:30;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  background: linear-gradient(to bottom, var(--card), rgba(255,255,255,0.6));
-  border-bottom:1px solid var(--border);
-  padding:14px 18px;
-  backdrop-filter: blur(6px);
-}
-.header__box { text-align:center; }
-.header__title{ margin:0; font-size:18px; font-weight:650; letter-spacing:0.1px; }
-.header__subtitle{ margin:2px 0 0 0; font-size:12px; color:var(--muted); }
-
-/* theme toggle */
-.theme-toggle{
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%);
-  background:var(--glass);
-  border:1px solid var(--border);
-  padding:8px 10px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-  color:var(--text);
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.theme-toggle:focus{outline:2px solid rgba(59,130,246,0.18)}
-
-/* ========== Container ========== */
-.container{ max-width:920px; margin:18px auto; padding:0 18px; }
-
-/* info */
-.info {
-  background: linear-gradient(180deg, rgba(75,155,120,0.04), rgba(59,130,246,0.03));
-  border-left:4px solid var(--accent);
-  padding:14px 16px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:14px;
-  margin-bottom:14px;
-  box-shadow: var(--shadow-small);
-}
-
-/* badges */
-.badges{ display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
-.badge{
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:6px 10px;
-  border-radius:10px;
-  font-size:13px;
-  color:var(--muted);
-  box-shadow: var(--shadow-small);
-}
-
-/* grid & offers */
-.grid{ display:grid; gap:14px; grid-template-columns: 1fr; margin-top:6px; }
-.offer{
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:14px;
-  display:flex;
-  gap:14px;
-  align-items:center;
-  border:1px solid var(--border);
-  box-shadow: var(--shadow);
-  transition: transform .14s ease, box-shadow .14s ease;
-}
-.offer:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(16,32,48,0.08); }
-.logo{
-  width:64px; height:64px; flex:0 0 64px;
+  position:sticky; top:0; z-index:40;
   display:flex; align-items:center; justify-content:center;
-  border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.45));
+  gap:12px; padding:14px 18px; background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.6));
+  border-bottom:1px solid var(--border); backdrop-filter: blur(6px);
+}
+.brand {
+  display:flex; align-items:center; gap:12px;
+}
+.logo {
+  width:46px; height:46px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg,#ffffff, #f1fbf9); border:1px solid var(--border); box-shadow: 0 6px 18px rgba(16,32,48,0.04);
+}
+.title { font-weight:700; font-size:18px; margin:0; }
+.subtitle { display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+
+/* theme toggle (globe) */
+.theme-toggle {
+  position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  background:var(--panel); border:1px solid var(--border); padding:8px; border-radius:10px; cursor:pointer;
+  box-shadow: 0 6px 14px rgba(16,32,48,0.04);
+}
+.theme-toggle svg{display:block}
+
+/* -------------------- Container -------------------- */
+.container { max-width:920px; margin:18px auto; padding:0 18px 100px; }
+
+/* -------------------- Top status bar / loader -------------------- */
+.top-status {
+  display:flex; align-items:center; gap:12px; padding:12px; border-radius:12px;
+  background:linear-gradient(90deg, rgba(47,124,237,0.04), rgba(76,198,160,0.03));
+  border:1px solid var(--border); margin-bottom:14px;
+}
+.status-dot {
+  width:12px; height:12px; border-radius:50%; background:var(--accent);
+  box-shadow:0 6px 18px rgba(47,124,237,0.14); transform-origin:center;
+  animation: pulse 1600ms infinite;
+}
+@keyframes pulse {
+  0%{ transform:scale(1); opacity:1 }
+  50%{ transform:scale(1.45); opacity:.6 }
+  100%{ transform:scale(1); opacity:1 }
+}
+.status-text { font-size:14px; color:var(--text); font-weight:600; }
+.status-sub { font-size:13px; color:var(--muted); margin-left:6px }
+
+/* progress bar */
+.progress {
+  height:8px; background:linear-gradient(90deg, rgba(47,124,237,0.15), rgba(76,198,160,0.08));
+  border-radius:8px; overflow:hidden; margin-left:auto; max-width:280px; width:100%;
   border:1px solid var(--border);
-  box-shadow: var(--shadow-small);
 }
-.offer__title{ margin:0; font-size:16px; font-weight:600; }
-.offer__desc{ margin:6px 0 10px; color:var(--muted); font-size:14px; max-width:52ch; }
-.offer__actions{ display:flex; gap:8px; align-items:center; }
-
-/* button */
-.btn{
-  background:var(--accent);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-  font-size:14px;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  box-shadow: 0 8px 18px rgba(59,130,246,0.12);
-}
-.btn:active{ transform: translateY(1px); }
-
-/* section title */
-.section-title{ margin:22px 0 10px; font-size:18px; font-weight:700; }
-
-/* FAQ */
-.faq{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:10px; margin-bottom:10px; }
-.faq button{ width:100%; background:transparent; border:0; text-align:left; padding:8px 0; font-size:15px; font-weight:700; color:var(--text); cursor:pointer; }
-.faq p{ margin:8px 0 0; color:var(--muted); display:none; line-height:1.5; }
-.faq.open p{ display:block; }
-
-/* footer */
-.footer{ margin-top:20px; text-align:center; color:var(--muted); font-size:13px; }
-
-/* floating CTA */
-.float-cta{
-  position:fixed; left:50%; transform:translateX(-50%);
-  bottom:18px; z-index:60;
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
-  color:#fff; padding:12px 20px; border-radius:14px; font-weight:800; display:none;
-  box-shadow: 0 18px 40px rgba(16,32,48,0.12);
+.progress > i {
+  display:block; height:100%; width:0%; background: linear-gradient(90deg,var(--accent),var(--accent-soft));
+  transition: width 700ms var(--ease);
 }
 
-/* responsive tweaks */
-@media (min-width:880px){
-  .grid{ grid-template-columns: 1fr; }
-  .container{ padding:0 28px; }
+/* -------------------- Badges -------------------- */
+.badges { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 6px; }
+.badge { background:var(--panel); padding:6px 10px; border-radius:10px; border:1px solid var(--border);
+  font-size:13px; color:var(--muted); box-shadow: 0 6px 18px rgba(16,32,48,0.03);
 }
-@media (max-width:420px){
-  .logo{ width:52px; height:52px; }
-  .offer__desc{ font-size:13px; }
-  .header__title{ font-size:16px; }
+
+/* -------------------- Grid / cards -------------------- */
+.grid { display:grid; gap:14px; margin-top:8px; grid-template-columns: 1fr; }
+.card {
+  display:flex; gap:14px; align-items:center; background:var(--panel); border-radius:12px; padding:12px;
+  border:1px solid var(--border); box-shadow: var(--card-shadow);
+  transform: translateY(12px); opacity:0;
+  transition: transform 500ms var(--ease), opacity 400ms var(--ease);
+}
+.card.show { transform:none; opacity:1; }
+.card .ico {
+  width:64px; height:64px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(240,250,255,0.9)); border:1px solid var(--border);
+  flex:0 0 64px;
+}
+.card h3 { margin:0; font-size:16px; }
+.card p { margin:6px 0 8px; color:var(--muted); font-size:14px; }
+
+/* CTA button in card */
+.card .btn { margin-left:auto; width:160px; }
+
+/* -------------------- Card animations (stagger) -------------------- */
+.grid .card:nth-child(1).show { transition-delay: 0ms; }
+.grid .card:nth-child(2).show { transition-delay: 80ms; }
+.grid .card:nth-child(3).show { transition-delay: 160ms; }
+.grid .card:nth-child(4).show { transition-delay: 240ms; }
+.grid .card:nth-child(5).show { transition-delay: 320ms; }
+
+/* -------------------- FAQ -------------------- */
+.section-title{ margin:20px 0 10px; font-size:18px; font-weight:700 }
+.faq{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:10px; margin-bottom:10px; }
+.faq button{ width:100%; text-align:left; background:transparent; border:0; font-weight:700; font-size:15px; color:var(--text); cursor:pointer; padding:8px 0; }
+.faq p{ margin:8px 0 0; color:var(--muted); display:none; line-height:1.5 }
+.faq.open p{ display:block }
+
+/* -------------------- Floating CTA -------------------- */
+.float-cta {
+  position:fixed; left:50%; transform:translateX(-50%); bottom:20px; z-index:60;
+  background: linear-gradient(90deg,var(--accent),var(--accent-soft));
+  color:white; padding:12px 20px; border-radius:14px; font-weight:800; box-shadow: 0 18px 36px rgba(16,32,48,0.12);
+  display:none;
+}
+
+/* -------------------- Footer -------------------- */
+.footer { margin-top:20px; color:var(--muted); text-align:center; font-size:13px; }
+
+/* -------------------- Responsive -------------------- */
+@media (max-width:640px){
+  .card { flex-direction:row; gap:12px; padding:12px; }
+  .card .ico{ width:54px; height:54px; flex:0 0 54px; }
+  .card .btn{ width:130px; }
+  .progress { max-width:160px; }
 }
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<header class="header" role="banner" aria-label="Заголовок">
-  <div class="header__box">
-    <div class="header__title">Подбор финансовых решений</div>
-    <div class="header__subtitle">Информационный сервис — только переход на официальные сайты</div>
+<header class="header" role="banner">
+  <div class="brand" aria-hidden="false">
+    <div class="logo" aria-hidden="true">
+      <!-- simple friendly logo -->
+      <svg width="36" height="36" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#e8fbf5"/>
+        <path d="M14 30c6-6 20-20 26-22" stroke="#4DB67D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="18" cy="18" r="3" fill="#2f7ced"/>
+      </svg>
+    </div>
+    <div>
+      <div class="title">Подбор финансовых предложений</div>
+      <div class="subtitle">Информационный сервис — переадресация на официальные сайты</div>
+    </div>
   </div>
-  <button class="theme-toggle" id="themeToggle" aria-pressed="false" aria-label="Переключить тему">🌓</button>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Тёмная / светлая тема">
+    <!-- globe icon -->
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M2 12h20"></path>
+      <path d="M12 2c2.5 4.5 2.5 14 0 20"></path>
+    </svg>
+  </button>
 </header>
 
 <!-- MAIN -->
 <main class="container" role="main">
 
-  <div class="info" role="note">
-    Мы помогаем сравнить предложения по кредитам и займам. <strong>Сайт не выдаёт займы и не собирает персональные данные.</strong>
+  <!-- status & loader -->
+  <div class="top-status" role="status" aria-live="polite">
+    <div class="status-dot" aria-hidden="true"></div>
+    <div>
+      <div class="status-text" id="statusMain">Подбираем лучшие предложения</div>
+      <div class="status-sub" id="statusSub">Это займёт пару секунд — ищем оптимальные варианты</div>
+    </div>
+    <div class="progress" aria-hidden="true" style="margin-left:auto">
+      <i id="progressBar"></i>
+    </div>
   </div>
 
-  <div class="badges" aria-hidden="false">
-    <div class="badge">✅ Проверенные компании</div>
-    <div class="badge">🔒 Безопасные переходы</div>
-    <div class="badge">📄 Официальные сайты</div>
+  <div class="badges" aria-hidden="true">
+    <div class="badge">✅ Только проверенные</div>
+    <div class="badge">🔒 Прямые переходы</div>
     <div class="badge">💬 Бесплатно для пользователя</div>
   </div>
 
-  <h2 class="section-title">Рекомендуемые предложения</h2>
+  <h2 class="section-title">Рекомендуем</h2>
 
-  <section class="grid" aria-label="Список предложений">
-    <!-- eKapusta -->
-    <article class="offer" role="article" aria-labelledby="ekapustaTitle">
-      <div class="logo" aria-hidden="true">
-        <!-- SVG: нейтральная иконка K -->
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="0" y="0" width="48" height="48" rx="10" fill="#E8F8F0"/>
-          <circle cx="24" cy="18" r="9" fill="#4DB67D"/>
-          <text x="50%" y="60%" text-anchor="middle" font-size="18" fill="#fff" font-family="Arial" font-weight="700">K</text>
+  <section class="grid" id="offersGrid" aria-label="Список предложений">
+    <!-- Cards: icons are inline SVG. Buttons open partner sites in new tab -->
+    <article class="card" data-offer="eKapusta">
+      <div class="ico" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="10" fill="#E8FBF0"></rect>
+          <circle cx="24" cy="18" r="8" fill="#4DB67D"></circle>
+          <text x="50%" y="65%" text-anchor="middle" font-size="16" fill="#fff" font-weight="700" font-family="Arial">K</text>
         </svg>
       </div>
       <div>
-        <h3 id="ekapustaTitle" class="offer__title">еКапуста</h3>
-        <div class="offer__desc">Онлайн оформление на официальном сайте. Прозрачные условия и процесс.</div>
-        <div class="offer__actions">
-          <a class="btn" href="https://refk.in/05gxd" target="_blank" rel="noopener noreferrer" aria-label="Перейти на еКапуста">Посмотреть</a>
-        </div>
+        <h3>еКапуста</h3>
+        <p>Оформление онлайн. Решение на официальном сайте.</p>
       </div>
+      <a class="btn" href="https://refk.in/05gxd" target="_blank" rel="noopener noreferrer" aria-label="Перейти на еКапуста">Посмотреть</a>
     </article>
 
-    <!-- МикроЗайм -->
-    <article class="offer" role="article" aria-labelledby="mikroTitle">
-      <div class="logo" aria-hidden="true">
-        <!-- SVG: нейтральная иконка MZ -->
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="0" y="0" width="48" height="48" rx="12" fill="#EEF5FF"/>
-          <rect x="8" y="8" width="32" height="32" rx="8" fill="#3B82F6"/>
-          <text x="50%" y="60%" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="700">MZ</text>
+    <article class="card" data-offer="mikro">
+      <div class="ico" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="12" fill="#EEF5FF"></rect>
+          <rect x="8" y="10" width="32" height="28" rx="6" fill="#3B82F6"></rect>
+          <text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">MZ</text>
         </svg>
       </div>
       <div>
-        <h3 id="mikroTitle" class="offer__title">МикроЗайм</h3>
-        <div class="offer__desc">Минимум документов. Переход на официальный сайт компании.</div>
-        <div class="offer__actions">
-          <a class="btn" href="https://refk.in/05h9h" target="_blank" rel="noopener noreferrer" aria-label="Перейти на МикроЗайм">Посмотреть</a>
-        </div>
+        <h3>МикроЗайм</h3>
+        <p>Минимум документов. Переход на официальный сайт.</p>
       </div>
+      <a class="btn" href="https://refk.in/05h9h" target="_blank" rel="noopener noreferrer" aria-label="Перейти на МикроЗайм">Посмотреть</a>
     </article>
 
-    <!-- Lime -->
-    <article class="offer" role="article" aria-labelledby="limeTitle">
-      <div class="logo" aria-hidden="true">
-        <!-- SVG: нейтральная иконка L -->
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="10" fill="#F6FFF7"/>
-          <circle cx="24" cy="24" r="12" fill="#9CCC65"/>
-          <text x="50%" y="60%" text-anchor="middle" font-size="16" fill="#fff" font-family="Arial" font-weight="700">L</text>
+    <article class="card" data-offer="lime">
+      <div class="ico" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="10" fill="#F6FFF7"></rect>
+          <circle cx="24" cy="24" r="12" fill="#9CCC65"></circle>
+          <text x="50%" y="65%" text-anchor="middle" font-size="16" fill="#fff" font-weight="700" font-family="Arial">L</text>
         </svg>
       </div>
       <div>
-        <h3 id="limeTitle" class="offer__title">Lime</h3>
-        <div class="offer__desc">Современный сервис — оформление и решение онлайн.</div>
-        <div class="offer__actions">
-          <a class="btn" href="https://refk.in/05h9i" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Lime">Посмотреть</a>
-        </div>
+        <h3>Lime</h3>
+        <p>Быстрое решение онлайн — удобно и прозрачно.</p>
       </div>
+      <a class="btn" href="https://refk.in/05h9i" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Lime">Посмотреть</a>
     </article>
 
-    <!-- Max.Credit -->
-    <article class="offer" role="article" aria-labelledby="maxTitle">
-      <div class="logo" aria-hidden="true">
-        <!-- SVG: нейтральная иконка MC -->
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="10" fill="#FFF7EF"/>
-          <rect x="6" y="6" width="36" height="36" rx="8" fill="#FF9800"/>
-          <text x="50%" y="60%" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="700">MC</text>
+    <article class="card" data-offer="max">
+      <div class="ico" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="10" fill="#FFF7EF"></rect>
+          <rect x="6" y="6" width="36" height="36" rx="8" fill="#FF9800"></rect>
+          <text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">MC</text>
         </svg>
       </div>
       <div>
-        <h3 id="maxTitle" class="offer__title">Max.Credit</h3>
-        <div class="offer__desc">Гибкие условия погашения и удобный интерфейс на сайте партнёра.</div>
-        <div class="offer__actions">
-          <a class="btn" href="https://refk.in/05h9j" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Max.Credit">Посмотреть</a>
-        </div>
+        <h3>Max.Credit</h3>
+        <p>Гибкие условия погашения, удобная панель на сайте партнёра.</p>
       </div>
+      <a class="btn" href="https://refk.in/05h9j" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Max.Credit">Посмотреть</a>
     </article>
 
-    <!-- Rocketman -->
-    <article class="offer" role="article" aria-labelledby="rocketTitle">
-      <div class="logo" aria-hidden="true">
-        <!-- SVG: нейтральная иконка R -->
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="12" fill="#F4F1FF"/>
+    <article class="card" data-offer="rocket">
+      <div class="ico" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="12" fill="#F4F1FF"></rect>
           <path d="M12 34c6-6 18-18 22-20l4 4c-2 4-14 16-20 20-2 0-6 0-6 0z" fill="#673AB7" opacity="0.95"/>
-          <text x="50%" y="64%" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="700">R</text>
+          <text x="50%" y="68%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">R</text>
         </svg>
       </div>
       <div>
-        <h3 id="rocketTitle" class="offer__title">Rocketman</h3>
-        <div class="offer__desc">Переход на официальный сайт компании — быстрое рассмотрение.</div>
-        <div class="offer__actions">
-          <a class="btn" href="https://refk.in/05h9k" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Rocketman">Посмотреть</a>
-        </div>
+        <h3>Rocketman</h3>
+        <p>Переход на официальный сайт компании — быстро и просто.</p>
       </div>
+      <a class="btn" href="https://refk.in/05h9k" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Rocketman">Посмотреть</a>
     </article>
   </section>
 
   <h2 class="section-title">Почему нам доверяют</h2>
-  <div class="faq" id="faq1">
-    <button type="button">Мы не выдаём займы — кто мы такие?</button>
-    <p>Мы — информационный сервис. Показываем предложения и направляем на официальные сайты компаний. Никаких обещаний по одобрению.</p>
+  <div class="faq" id="faqA">
+    <button type="button">Как работает сервис?</button>
+    <p>Мы не выдаём кредиты. Мы помогаем сравнить предложения и направляем на официальные сайты финансовых организаций.</p>
   </div>
 
-  <div class="faq" id="faq2">
-    <button type="button">Безопасно ли переходить?</button>
-    <p>Да. Все ссылки ведут на официальные ресурсы партнёров. Мы не собираем персональные данные на этом сайте.</p>
+  <div class="faq" id="faqB">
+    <button type="button">Собираете ли вы данные?</button>
+    <p>Нет. На сайте нет форм и мы не запрашиваем персональные данные — переходы ведут напрямую на сайты партнёров.</p>
   </div>
 
-  <div class="faq" id="faq3">
+  <div class="faq" id="faqC">
     <button type="button">Это бесплатно?</button>
     <p>Да. Для пользователей сервис бесплатный — компании оплачивают размещение.</p>
   </div>
 
   <div class="footer">
     Самозанятый: Округин С.Е. · Москва, Россия · <a href="#" style="color:var(--accent)">Политика конфиденциальности</a>
-    <div style="margin-top:8px;font-size:12px;color:var(--muted)">Информация справочная. Не является офертой.</div>
+    <div style="margin-top:6px;color:var(--muted);font-size:12px">Информация справочная, не является офертой.</div>
   </div>
 
 </main>
 
-<!-- Floating CTA -->
+<!-- floating CTA -->
 <a class="float-cta" id="floatCta" href="https://refk.in/05gxd" target="_blank" rel="noopener noreferrer">Подобрать предложение</a>
 
 <script>
-/* ========= Theme toggle ========= */
+/* ====== Theme toggle ====== */
 (function(){
   const btn = document.getElementById('themeToggle');
   const body = document.body;
-  // установить по system preference
+  // set to system prefer
   if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
     body.classList.add('dark');
-    btn.setAttribute('aria-pressed','true');
   }
-  btn.addEventListener('click', ()=>{
-    const now = body.classList.toggle('dark');
-    btn.setAttribute('aria-pressed', String(now));
-  });
+  btn.addEventListener('click', ()=> body.classList.toggle('dark'));
 })();
 
-/* ========= FAQ toggle ========= */
+/* ====== Simulated loader + reveal cards ====== */
+(function(){
+  const progress = document.getElementById('progressBar');
+  const statusMain = document.getElementById('statusMain');
+  const statusSub = document.getElementById('statusSub');
+  const grid = document.getElementById('offersGrid');
+  const cards = Array.from(grid.querySelectorAll('.card'));
+  // simulate progressive loading steps (friendly)
+  const steps = [
+    {t:700, text:'Сканируем предложения партнёров…', sub:'Ищем лучшие условия по вашей заявке', w:28},
+    {t:900, text:'Сравниваем условия и комиссии…', sub:'Собираем прозрачные варианты', w:56},
+    {t:900, text:'Подготовили результаты', sub:'Вот подходящие предложения', w:100}
+  ];
+  let acc = 0;
+  // animate progress bar steps, then reveal cards with stagger
+  (async function run(){
+    for(const s of steps){
+      // update text
+      statusMain.textContent = s.text;
+      statusSub.textContent = s.sub;
+      // animate width
+      const el = document.getElementById('progressBar');
+      el.style.width = s.w + '%';
+      await new Promise(r => setTimeout(r, s.t));
+    }
+    // final state
+    statusMain.textContent = 'Готово — предложения подобраны';
+    statusSub.textContent = 'Выберите подходящий вариант и перейдите на официальный сайт';
+    // reveal cards staggered
+    cards.forEach((c,i)=>{
+      setTimeout(()=> c.classList.add('show'), i*80);
+    });
+  })();
+})();
+
+/* ====== FAQ toggle ====== */
 document.querySelectorAll('.faq').forEach(node=>{
-  const button = node.querySelector('button');
-  button.addEventListener('click', ()=>{
-    const opened = node.classList.toggle('open');
-    button.setAttribute('aria-expanded', opened? 'true' : 'false');
+  const btn = node.querySelector('button');
+  btn.addEventListener('click', ()=>{
+    const open = node.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 });
 
-/* ========= Floating CTA reveal ========= */
+/* ====== Floating CTA show on scroll ====== */
 (function(){
   const floatBtn = document.getElementById('floatCta');
-  function check(){
-    floatBtn.style.display = window.scrollY > 360 ? 'block' : 'none';
-  }
+  function check(){ floatBtn.style.display = window.scrollY > 320 ? 'block' : 'none'; }
   window.addEventListener('scroll', check, {passive:true});
   check();
 })();
