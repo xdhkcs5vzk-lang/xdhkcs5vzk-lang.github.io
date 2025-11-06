@@ -1,390 +1,233 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=105133509', 'ym');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinStart — Подбор финансовых предложений онлайн</title>
 
-    ym(105133509, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/105133509" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Подбор финансовых предложений</title>
-<style>
-/* -------------------- Palette & vars -------------------- */
-:root{
-  --bg: #fbfdff;
-  --panel: #ffffff;
-  --muted: #5b6b78;
-  --text: #102027;
-  --accent: #2f7ced;      /* friendly blue */
-  --accent-soft: #7ccbbf; /* soft green */
-  --glass: rgba(47,124,237,0.06);
-  --border: #e6eef6;
-  --radius: 14px;
-  --card-shadow: 0 12px 28px rgba(17,24,39,0.06);
-  --ease: cubic-bezier(.2,.9,.3,1);
-}
-.dark { 
-  --bg: #071016; --panel:#0f1a1f; --muted:#9fb0ba; --text:#e6f2f7;
-  --accent:#5fa1ff; --accent-soft:#66d3b4; --glass: rgba(255,255,255,0.02);
-  --border:#15303a; --card-shadow: 0 16px 40px rgba(0,0,0,0.45);
-}
+  <!-- Здесь вставь код Яндекс.Метрики -->
 
-/* -------------------- Base -------------------- */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale; transition: background .28s var(--ease), color .28s var(--ease);
-  line-height:1.45;
-}
-
-/* -------------------- Header -------------------- */
-.header {
-  position:sticky; top:0; z-index:40;
-  display:flex; align-items:center; justify-content:center;
-  gap:12px; padding:14px 18px; background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.6));
-  border-bottom:1px solid var(--border); backdrop-filter: blur(6px);
-}
-.brand {
-  display:flex; align-items:center; gap:12px;
-}
-.logo {
-  width:46px; height:46px; border-radius:10px; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(180deg,#ffffff, #f1fbf9); border:1px solid var(--border); box-shadow: 0 6px 18px rgba(16,32,48,0.04);
-}
-.title { font-weight:700; font-size:18px; margin:0; }
-.subtitle { display:block; font-size:12px; color:var(--muted); margin-top:2px; }
-
-/* theme toggle (globe) */
-.theme-toggle {
-  position:absolute; right:12px; top:50%; transform:translateY(-50%);
-  background:var(--panel); border:1px solid var(--border); padding:8px; border-radius:10px; cursor:pointer;
-  box-shadow: 0 6px 14px rgba(16,32,48,0.04);
-}
-.theme-toggle svg{display:block}
-
-/* -------------------- Container -------------------- */
-.container { max-width:920px; margin:18px auto; padding:0 18px 100px; }
-
-/* -------------------- Top status bar / loader -------------------- */
-.top-status {
-  display:flex; align-items:center; gap:12px; padding:12px; border-radius:12px;
-  background:linear-gradient(90deg, rgba(47,124,237,0.04), rgba(76,198,160,0.03));
-  border:1px solid var(--border); margin-bottom:14px;
-}
-.status-dot {
-  width:12px; height:12px; border-radius:50%; background:var(--accent);
-  box-shadow:0 6px 18px rgba(47,124,237,0.14); transform-origin:center;
-  animation: pulse 1600ms infinite;
-}
-@keyframes pulse {
-  0%{ transform:scale(1); opacity:1 }
-  50%{ transform:scale(1.45); opacity:.6 }
-  100%{ transform:scale(1); opacity:1 }
-}
-.status-text { font-size:14px; color:var(--text); font-weight:600; }
-.status-sub { font-size:13px; color:var(--muted); margin-left:6px }
-
-/* progress bar */
-.progress {
-  height:8px; background:linear-gradient(90deg, rgba(47,124,237,0.15), rgba(76,198,160,0.08));
-  border-radius:8px; overflow:hidden; margin-left:auto; max-width:280px; width:100%;
-  border:1px solid var(--border);
-}
-.progress > i {
-  display:block; height:100%; width:0%; background: linear-gradient(90deg,var(--accent),var(--accent-soft));
-  transition: width 700ms var(--ease);
-}
-
-/* -------------------- Badges -------------------- */
-.badges { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 6px; }
-.badge { background:var(--panel); padding:6px 10px; border-radius:10px; border:1px solid var(--border);
-  font-size:13px; color:var(--muted); box-shadow: 0 6px 18px rgba(16,32,48,0.03);
-}
-
-/* -------------------- Grid / cards -------------------- */
-.grid { display:grid; gap:14px; margin-top:8px; grid-template-columns: 1fr; }
-.card {
-  display:flex; gap:14px; align-items:center; background:var(--panel); border-radius:12px; padding:12px;
-  border:1px solid var(--border); box-shadow: var(--card-shadow);
-  transform: translateY(12px); opacity:0;
-  transition: transform 500ms var(--ease), opacity 400ms var(--ease);
-}
-.card.show { transform:none; opacity:1; }
-.card .ico {
-  width:64px; height:64px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(240,250,255,0.9)); border:1px solid var(--border);
-  flex:0 0 64px;
-}
-.card h3 { margin:0; font-size:16px; }
-.card p { margin:6px 0 8px; color:var(--muted); font-size:14px; }
-
-/* CTA button in card */
-.card .btn { margin-left:auto; width:160px; }
-
-/* -------------------- Card animations (stagger) -------------------- */
-.grid .card:nth-child(1).show { transition-delay: 0ms; }
-.grid .card:nth-child(2).show { transition-delay: 80ms; }
-.grid .card:nth-child(3).show { transition-delay: 160ms; }
-.grid .card:nth-child(4).show { transition-delay: 240ms; }
-.grid .card:nth-child(5).show { transition-delay: 320ms; }
-
-/* -------------------- FAQ -------------------- */
-.section-title{ margin:20px 0 10px; font-size:18px; font-weight:700 }
-.faq{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:10px; margin-bottom:10px; }
-.faq button{ width:100%; text-align:left; background:transparent; border:0; font-weight:700; font-size:15px; color:var(--text); cursor:pointer; padding:8px 0; }
-.faq p{ margin:8px 0 0; color:var(--muted); display:none; line-height:1.5 }
-.faq.open p{ display:block }
-
-/* -------------------- Floating CTA -------------------- */
-.float-cta {
-  position:fixed; left:50%; transform:translateX(-50%); bottom:20px; z-index:60;
-  background: linear-gradient(90deg,var(--accent),var(--accent-soft));
-  color:white; padding:12px 20px; border-radius:14px; font-weight:800; box-shadow: 0 18px 36px rgba(16,32,48,0.12);
-  display:none;
-}
-
-/* -------------------- Footer -------------------- */
-.footer { margin-top:20px; color:var(--muted); text-align:center; font-size:13px; }
-
-/* -------------------- Responsive -------------------- */
-@media (max-width:640px){
-  .card { flex-direction:row; gap:12px; padding:12px; }
-  .card .ico{ width:54px; height:54px; flex:0 0 54px; }
-  .card .btn{ width:130px; }
-  .progress { max-width:160px; }
-}
-</style>
+  <style>
+    :root {
+      --bg: #f7fafc;
+      --panel: #ffffff;
+      --accent: #2f7ced;
+      --accent-hover: #2364c6;
+      --text: #1e2a36;
+      --muted: #5b6b78;
+      --radius: 14px;
+      --shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--panel);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--accent);
+    }
+    .logo svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--accent);
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .intro {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .intro h1 {
+      margin-bottom: 8px;
+      font-size: 24px;
+      color: var(--accent);
+    }
+    .card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--accent-hover);
+    }
+    .card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px;
+      font-weight: 600;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: background .2s ease;
+    }
+    .btn:hover {
+      background: var(--accent-hover);
+    }
+    .multi-btn {
+      background: var(--accent-hover);
+      margin-top: 30px;
+      font-size: 16px;
+    }
+    footer {
+      background: #edf2f7;
+      text-align: center;
+      padding: 25px 15px;
+      margin-top: 40px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid #d9e2ec;
+    }
+    a.links {
+      color: var(--accent-hover);
+      text-decoration: none;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 99;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background: #fff;
+      max-width: 520px;
+      margin: 10% auto;
+      padding: 25px;
+      border-radius: var(--radius);
+      line-height: 1.7;
+      box-shadow: var(--shadow);
+    }
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header" role="banner">
-  <div class="brand" aria-hidden="false">
-    <div class="logo" aria-hidden="true">
-      <!-- simple friendly logo -->
-      <svg width="36" height="36" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect x="2" y="2" width="44" height="44" rx="10" fill="#e8fbf5"/>
-        <path d="M14 30c6-6 20-20 26-22" stroke="#4DB67D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="18" cy="18" r="3" fill="#2f7ced"/>
-      </svg>
-    </div>
-    <div>
-      <div class="title">Подбор финансовых предложений</div>
-      <div class="subtitle">Информационный сервис — переадресация на официальные сайты</div>
-    </div>
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><path d="M12 2L2 7v6c0 5 3.6 9.4 10 13 6.4-3.6 10-8 10-13V7l-10-5zm0 2.2L19 7.5v5.4c0 3.9-2.9 7.4-7 10-4.1-2.6-7-6.1-7-10V7.5l7-3.3z"/></svg>
+    FinStart
   </div>
-
-  <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Тёмная / светлая тема">
-    <!-- globe icon -->
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="9"></circle>
-      <path d="M2 12h20"></path>
-      <path d="M12 2c2.5 4.5 2.5 14 0 20"></path>
-    </svg>
-  </button>
 </header>
 
-<!-- MAIN -->
-<main class="container" role="main">
-
-  <!-- status & loader -->
-  <div class="top-status" role="status" aria-live="polite">
-    <div class="status-dot" aria-hidden="true"></div>
-    <div>
-      <div class="status-text" id="statusMain">Подбираем лучшие предложения</div>
-      <div class="status-sub" id="statusSub">Это займёт пару секунд — ищем оптимальные варианты</div>
-    </div>
-    <div class="progress" aria-hidden="true" style="margin-left:auto">
-      <i id="progressBar"></i>
-    </div>
+<div class="container">
+  <div class="intro">
+    <h1>Подбор финансовых предложений</h1>
+    <p>Мы помогаем быстро подобрать подходящие микрофинансовые и кредитные решения.  
+    Рекомендуем оставить заявки сразу в нескольких сервисах для повышения шансов на одобрение.</p>
   </div>
 
-  <div class="badges" aria-hidden="true">
-    <div class="badge">✅ Только проверенные</div>
-    <div class="badge">🔒 Прямые переходы</div>
-    <div class="badge">💬 Бесплатно для пользователя</div>
+  <div class="card">
+    <h3>еКапуста</h3>
+    <p>Быстрое онлайн-оформление. Решение за несколько минут.</p>
+    <a class="btn" href="https://refk.in/05gxd" target="_blank">Перейти на сайт</a>
   </div>
 
-  <h2 class="section-title">Рекомендуем</h2>
-
-  <section class="grid" id="offersGrid" aria-label="Список предложений">
-    <!-- Cards: icons are inline SVG. Buttons open partner sites in new tab -->
-    <article class="card" data-offer="eKapusta">
-      <div class="ico" aria-hidden="true">
-        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="10" fill="#E8FBF0"></rect>
-          <circle cx="24" cy="18" r="8" fill="#4DB67D"></circle>
-          <text x="50%" y="65%" text-anchor="middle" font-size="16" fill="#fff" font-weight="700" font-family="Arial">K</text>
-        </svg>
-      </div>
-      <div>
-        <h3>еКапуста</h3>
-        <p>Оформление онлайн. Решение на официальном сайте.</p>
-      </div>
-      <a class="btn" href="https://refk.in/05gxd" target="_blank" rel="noopener noreferrer" aria-label="Перейти на еКапуста">Посмотреть</a>
-    </article>
-
-    <article class="card" data-offer="mikro">
-      <div class="ico" aria-hidden="true">
-        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="12" fill="#EEF5FF"></rect>
-          <rect x="8" y="10" width="32" height="28" rx="6" fill="#3B82F6"></rect>
-          <text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">MZ</text>
-        </svg>
-      </div>
-      <div>
-        <h3>МикроЗайм</h3>
-        <p>Минимум документов. Переход на официальный сайт.</p>
-      </div>
-      <a class="btn" href="https://refk.in/05h9h" target="_blank" rel="noopener noreferrer" aria-label="Перейти на МикроЗайм">Посмотреть</a>
-    </article>
-
-    <article class="card" data-offer="lime">
-      <div class="ico" aria-hidden="true">
-        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="10" fill="#F6FFF7"></rect>
-          <circle cx="24" cy="24" r="12" fill="#9CCC65"></circle>
-          <text x="50%" y="65%" text-anchor="middle" font-size="16" fill="#fff" font-weight="700" font-family="Arial">L</text>
-        </svg>
-      </div>
-      <div>
-        <h3>Lime</h3>
-        <p>Быстрое решение онлайн — удобно и прозрачно.</p>
-      </div>
-      <a class="btn" href="https://refk.in/05h9i" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Lime">Посмотреть</a>
-    </article>
-
-    <article class="card" data-offer="max">
-      <div class="ico" aria-hidden="true">
-        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="10" fill="#FFF7EF"></rect>
-          <rect x="6" y="6" width="36" height="36" rx="8" fill="#FF9800"></rect>
-          <text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">MC</text>
-        </svg>
-      </div>
-      <div>
-        <h3>Max.Credit</h3>
-        <p>Гибкие условия погашения, удобная панель на сайте партнёра.</p>
-      </div>
-      <a class="btn" href="https://refk.in/05h9j" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Max.Credit">Посмотреть</a>
-    </article>
-
-    <article class="card" data-offer="rocket">
-      <div class="ico" aria-hidden="true">
-        <svg width="40" height="40" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="12" fill="#F4F1FF"></rect>
-          <path d="M12 34c6-6 18-18 22-20l4 4c-2 4-14 16-20 20-2 0-6 0-6 0z" fill="#673AB7" opacity="0.95"/>
-          <text x="50%" y="68%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">R</text>
-        </svg>
-      </div>
-      <div>
-        <h3>Rocketman</h3>
-        <p>Переход на официальный сайт компании — быстро и просто.</p>
-      </div>
-      <a class="btn" href="https://refk.in/05h9k" target="_blank" rel="noopener noreferrer" aria-label="Перейти на Rocketman">Посмотреть</a>
-    </article>
-  </section>
-
-  <h2 class="section-title">Почему нам доверяют</h2>
-  <div class="faq" id="faqA">
-    <button type="button">Как работает сервис?</button>
-    <p>Мы не выдаём кредиты. Мы помогаем сравнить предложения и направляем на официальные сайты финансовых организаций.</p>
+  <div class="card">
+    <h3>МикроЗайм</h3>
+    <p>Минимум документов. Переход на официальный сайт.</p>
+    <a class="btn" href="https://refk.in/05h9h" target="_blank">Перейти на сайт</a>
   </div>
 
-  <div class="faq" id="faqB">
-    <button type="button">Собираете ли вы данные?</button>
-    <p>Нет. На сайте нет форм и мы не запрашиваем персональные данные — переходы ведут напрямую на сайты партнёров.</p>
+  <div class="card">
+    <h3>Lime</h3>
+    <p>Рассмотрение и оформление полностью онлайн.</p>
+    <a class="btn" href="https://refk.in/05h9i" target="_blank">Перейти на сайт</a>
   </div>
 
-  <div class="faq" id="faqC">
-    <button type="button">Это бесплатно?</button>
-    <p>Да. Для пользователей сервис бесплатный — компании оплачивают размещение.</p>
+  <div class="card">
+    <h3>Max.Credit</h3>
+    <p>Удобные условия и гибкие сроки погашения.</p>
+    <a class="btn" href="https://refk.in/05h9j" target="_blank">Перейти на сайт</a>
   </div>
 
-  <div class="footer">
-    Москва, Россия · <a href="#" style="color:var(--accent)">Политика конфиденциальности</a>
-    <div style="margin-top:6px;color:var(--muted);font-size:12px">Информация справочная, не является офертой.</div>
+  <div class="card">
+    <h3>Rocketman</h3>
+    <p>Переход на официальный сайт компании.</p>
+    <a class="btn" href="https://refk.in/05h9k" target="_blank">Перейти на сайт</a>
   </div>
 
-</main>
+  <a class="btn multi-btn" href="#" onclick="openBoth()">Подать заявку сразу в 2 сервиса</a>
+</div>
 
-<!-- floating CTA -->
-<a class="float-cta" id="floatCta" href="https://refk.in/05gxd" target="_blank" rel="noopener noreferrer">Подобрать предложение</a>
+<footer>
+  <p><strong>Информационный сервис FinStart</strong></p>
+  <p>Тел.: +7 (999) 354-17-27 | Email: mfo@.ru</p>
+  <p><a class="links" href="#" onclick="openModal('privacy')">Политика конфиденциальности</a> |
+     <a class="links" href="#" onclick="openModal('agreement')">Пользовательское соглашение</a></p>
+  <p>Информация носит справочный характер и не является офертой.  
+  Все условия уточняйте на официальных сайтах партнёров.</p>
+</footer>
+
+<!-- Модальные окна -->
+<div id="privacy" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('privacy')">&times;</span>
+    <h2>Политика конфиденциальности</h2>
+    <p>Сервис FinStart не собирает и не обрабатывает персональные данные пользователей.  
+    Все переходы ведут на официальные сайты партнёров.</p>
+  </div>
+</div>
+
+<div id="agreement" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('agreement')">&times;</span>
+    <h2>Пользовательское соглашение</h2>
+    <p>Сервис FinStart является информационным посредником и не оказывает финансовых услуг.  
+    Решение о предоставлении займа принимает партнёрская организация.</p>
+  </div>
+</div>
 
 <script>
-/* ====== Theme toggle ====== */
-(function(){
-  const btn = document.getElementById('themeToggle');
-  const body = document.body;
-  // set to system prefer
-  if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
-    body.classList.add('dark');
+  function openBoth(){
+    window.open("https://refk.in/05gxd", "_blank");
+    window.open("https://refk.in/05h9h", "_blank");
   }
-  btn.addEventListener('click', ()=> body.classList.toggle('dark'));
-})();
-
-/* ====== Simulated loader + reveal cards ====== */
-(function(){
-  const progress = document.getElementById('progressBar');
-  const statusMain = document.getElementById('statusMain');
-  const statusSub = document.getElementById('statusSub');
-  const grid = document.getElementById('offersGrid');
-  const cards = Array.from(grid.querySelectorAll('.card'));
-  // simulate progressive loading steps (friendly)
-  const steps = [
-    {t:700, text:'Сканируем предложения партнёров…', sub:'Ищем лучшие условия по вашей заявке', w:28},
-    {t:900, text:'Сравниваем условия и комиссии…', sub:'Собираем прозрачные варианты', w:56},
-    {t:900, text:'Подготовили результаты', sub:'Вот подходящие предложения', w:100}
-  ];
-  let acc = 0;
-  // animate progress bar steps, then reveal cards with stagger
-  (async function run(){
-    for(const s of steps){
-      // update text
-      statusMain.textContent = s.text;
-      statusSub.textContent = s.sub;
-      // animate width
-      const el = document.getElementById('progressBar');
-      el.style.width = s.w + '%';
-      await new Promise(r => setTimeout(r, s.t));
-    }
-    // final state
-    statusMain.textContent = 'Готово — предложения подобраны';
-    statusSub.textContent = 'Выберите подходящий вариант и перейдите на официальный сайт';
-    // reveal cards staggered
-    cards.forEach((c,i)=>{
-      setTimeout(()=> c.classList.add('show'), i*80);
+  function openModal(id){ document.getElementById(id).style.display='block'; }
+  function closeModal(id){ document.getElementById(id).style.display='none'; }
+  window.onclick = function(e){
+    document.querySelectorAll('.modal').forEach(m=>{
+      if(e.target===m) m.style.display='none';
     });
-  })();
-})();
-
-/* ====== FAQ toggle ====== */
-document.querySelectorAll('.faq').forEach(node=>{
-  const btn = node.querySelector('button');
-  btn.addEventListener('click', ()=>{
-    const open = node.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-});
-
-/* ====== Floating CTA show on scroll ====== */
-(function(){
-  const floatBtn = document.getElementById('floatCta');
-  function check(){ floatBtn.style.display = window.scrollY > 320 ? 'block' : 'none'; }
-  window.addEventListener('scroll', check, {passive:true});
-  check();
-})();
+  }
 </script>
 
 </body>
