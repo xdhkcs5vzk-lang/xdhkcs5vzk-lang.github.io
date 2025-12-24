@@ -1,517 +1,520 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>FinStart — Подбор финансовых предложений</title>
-<meta name="description" content="FinStart — подберите и сравните предложения по займам и кредитам. Переходы ведут на официальные сайты партнёров. Сайт информационный."/>
-
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=105151418', 'ym');
-
-    ym(105151418, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/105151418" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-
-
--->
-
-<style>
-:root{
-  --bg:#f5f8fc;
-  --panel:#ffffff;
-  --accent:#2f7ced;
-  --accent-2:#4db67d;
-  --text:#102027;
-  --muted:#5e6d77;
-  --border:#e6eef6;
-  --radius:14px;
-  --shadow: 0 14px 36px rgba(16,32,48,0.06);
-  --soft: cubic-bezier(.2,.9,.3,1);
-  --ticker-bg: linear-gradient(90deg, rgba(47,124,237,0.06), rgba(77,182,150,0.04));
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.5;
-}
-
-/* header */
-.header {
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
-  position:sticky; top:0; z-index:60;
-  display:flex; align-items:center; justify-content:center; padding:14px 18px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
-}
-.header-inner{max-width:1060px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo-box{display:flex;align-items:center;gap:10px}
-.logo-svg{width:44px;height:44px;flex:0 0 44px;border-radius:10px;background:linear-gradient(180deg,#e8fbf5,#f8ffff);display:flex;align-items:center;justify-content:center;border:1px solid var(--border);box-shadow:0 8px 20px rgba(47,124,237,0.04)}
-.brand-title{font-weight:700;font-size:18px}
-.brand-sub{font-size:12px;color:var(--muted)}
-
-/* container */
-.container{max-width:1060px;margin:18px auto;padding:0 18px 80px}
-
-/* top ticker */
-.ticker {
-  width:100%;
-  margin:14px 0;
-  padding:10px 12px;
-  border-radius:12px;
-  background:var(--ticker-bg);
-  border:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  gap:12px;
-  overflow:hidden;
-}
-.ticker .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 6px 18px rgba(47,124,237,0.12);flex:0 0 10px}
-.ticker .text{font-weight:600;color:var(--text);font-size:14px}
-.ticker .marquee{margin-left:auto;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden}
-
-/* hero */
-.hero{display:flex;gap:18px;align-items:flex-start;margin-bottom:12px}
-.hero-left{flex:1}
-.hero-card{
-  background:var(--panel);padding:20px;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow)
-}
-.hero h1{margin:0 0 8px;font-size:22px;color:var(--accent)}
-.hero p{color:var(--muted);margin:0}
-
-/* grid of offers */
-.grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
-@media(min-width:900px){.grid{grid-template-columns:repeat(2, 1fr)}}
-.offer{
-  display:flex;gap:14px;align-items:center;background:var(--panel);padding:14px;border-radius:12px;border:1px solid var(--border);
-  box-shadow:0 8px 28px rgba(16,32,48,0.04);transition:transform .18s var(--soft),box-shadow .18s var(--soft)
-}
-.offer:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(16,32,48,0.08)}
-.icon{width:72px;height:72px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#f3fdff);border:1px solid var(--border)}
-.offer h3{margin:0;font-size:16px;color:var(--accent)}
-.offer p{margin:6px 0 0;color:var(--muted);font-size:14px}
-.offer .cta{margin-left:auto;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;text-decoration:none;box-shadow:0 10px 26px rgba(47,124,237,0.12)}
-.btn.secondary{background:transparent;border:1px solid var(--border);color:var(--accent);padding:8px 12px}
-
-/* features */
-.features{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}
-@media(min-width:900px){.features{grid-template-columns:repeat(3,1fr)}}
-.feature{background:var(--panel);padding:14px;border-radius:12px;border:1px solid var(--border);box-shadow:0 8px 20px rgba(16,32,48,0.04);display:flex;gap:12px;align-items:flex-start}
-.feature svg{width:36px;height:36px;flex:0 0 36px}
-.feature h4{margin:0;font-size:15px}
-.feature p{margin:6px 0 0;color:var(--muted);font-size:14px}
-
-/* long info blocks */
-.section{margin-top:20px}
-.section .card{padding:18px;margin-bottom:12px}
-.section h2{margin:0 0 12px;font-size:18px}
-.list{margin:8px 0 0 18px;color:var(--muted)}
-
-/* info table style */
-.note{background:linear-gradient(180deg, rgba(47,124,237,0.03), rgba(77,182,150,0.02));padding:12px;border-radius:10px;border:1px solid var(--border);color:var(--muted)}
-
-/* floating CTA */
-.float-wrap{display:flex;justify-content:center;margin-top:18px}
-.float-cta{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:12px 18px;border-radius:14px;font-weight:800;box-shadow:0 18px 40px rgba(16,32,48,0.12);z-index:80;display:none}
-
-/* footer */
-.footer{margin-top:28px;padding:20px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between}
-.contacts{font-size:14px;color:var(--muted)}
-.legal{font-size:13px;color:var(--muted)}
-
-/* modal */
-.modal{display:none;position:fixed;z-index:120;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;padding:16px}
-.modal .inner{background:var(--panel);border-radius:12px;padding:18px;max-width:920px;max-height:80vh;overflow:auto;border:1px solid var(--border);box-shadow:var(--shadow)}
-.close{float:right;cursor:pointer;font-size:20px}
-
-/* small */
-.small{font-size:13px;color:var(--muted)}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Потеряли надежду на займ? История, которая может помочь</title>
+    <meta name="description" content="Искренний рассказ человека, который через отказы нашел способ получить займ с плохой кредитной историей. Не реклама, а личный опыт.">
+    <style>
+        /* Базовые стили - мягкие, теплые */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #faf8f5;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Теплые, доверительные цвета */
+        :root {
+            --warm-brown: #8B7355;
+            --soft-green: #2E8B57;
+            --warm-gray: #F8F5F1;
+            --accent-orange: #D17D29;
+        }
+        
+        /* Карточки с мягкими тенями */
+        .story-card {
+            background: white;
+            border-radius: 18px;
+            padding: 45px 40px;
+            margin: 35px 0;
+            box-shadow: 0 8px 30px rgba(139, 115, 85, 0.07);
+            border: 1px solid rgba(139, 115, 85, 0.09);
+            animation: fadeIn 0.7s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Заголовки в дружеском стиле */
+        h1 {
+            color: var(--warm-brown);
+            font-size: 2.6rem;
+            font-weight: normal;
+            line-height: 1.25;
+            margin-bottom: 30px;
+            text-align: center;
+            font-family: 'Georgia', serif;
+        }
+        
+        h2 {
+            color: var(--warm-brown);
+            font-size: 1.9rem;
+            font-weight: normal;
+            margin: 45px 0 25px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid rgba(139, 115, 85, 0.15);
+        }
+        
+        h3 {
+            color: var(--soft-green);
+            font-size: 1.35rem;
+            font-weight: normal;
+            margin: 28px 0 18px;
+        }
+        
+        /* Текст с увеличенной читаемостью */
+        p {
+            font-size: 1.15rem;
+            margin-bottom: 24px;
+            color: #444;
+        }
+        
+        /* Особое оформление вступления */
+        .personal-intro {
+            font-size: 1.25rem;
+            line-height: 1.85;
+            color: #555;
+            font-style: italic;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.04) 0%, rgba(209, 125, 41, 0.04) 100%);
+            border-radius: 15px;
+            margin: 35px 0;
+            border-left: 5px solid var(--soft-green);
+            border-right: 1px solid rgba(139, 115, 85, 0.1);
+        }
+        
+        /* Цитаты - как выделенные мысли */
+        .thought {
+            background: var(--warm-gray);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 35px 0;
+            border-left: 6px solid var(--accent-orange);
+            font-size: 1.18rem;
+            font-style: italic;
+        }
+        
+        /* Важные блоки */
+        .key-point {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.07) 0%, rgba(46, 139, 87, 0.07) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border: 1px solid rgba(209, 125, 41, 0.2);
+        }
+        
+        /* Основные кнопки - как дружеские предложения */
+        .action-btn {
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            margin: 35px auto;
+            padding: 22px 45px;
+            background: linear-gradient(135deg, var(--soft-green) 0%, #3CB371 100%);
+            color: white;
+            text-decoration: none;
+border-radius: 55px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: normal;
+            transition: all 0.35s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 18px rgba(46, 139, 87, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(46, 139, 87, 0.35);
+            background: linear-gradient(135deg, #3CB371 0%, #2E8B57 100%);
+        }
+        
+        .action-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Списки в доверительном стиле */
+        ul.heart-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+        
+        ul.heart-list li {
+            padding: 14px 0 14px 45px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+        
+        ul.heart-list li:before {
+            content: "♥";
+            color: var(--soft-green);
+            font-size: 1.8rem;
+            position: absolute;
+            left: 12px;
+            top: 10px;
+            line-height: 1;
+            opacity: 0.8;
+        }
+        
+        /* Шаги с аватарками */
+        .journey-steps {
+            counter-reset: step-counter;
+            margin: 45px 0;
+        }
+        
+        .journey-step {
+            padding: 30px 30px 30px 90px;
+            margin-bottom: 25px;
+            background: var(--warm-gray);
+            border-radius: 15px;
+            position: relative;
+            border-left: 5px solid var(--warm-brown);
+        }
+        
+        .journey-step:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: var(--warm-brown);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        /* Блок "что я вынес" */
+        .takeaway {
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.06) 0%, rgba(46, 139, 87, 0.06) 100%);
+            padding: 40px;
+            border-radius: 18px;
+            margin: 45px 0;
+            position: relative;
+        }
+        
+        .takeaway:before {
+            content: "💡";
+            position: absolute;
+            left: -20px;
+            top: -20px;
+            width: 50px;
+            height: 50px;
+            background: var(--soft-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(46, 139, 87, 0.25);
+        }
+        
+        /* Автор в конце */
+        .author-signature {
+            display: flex;
+            align-items: center;
+            margin: 50px 0;
+            padding: 35px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border-top: 3px solid var(--accent-orange);
+        }
+        
+        .author-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--warm-brown) 0%, var(--accent-orange) 100%);
+            margin-right: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.1rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        /* Футер */
+        .site-footer {
+            text-align: center;
+            padding: 45px 25px;
+            color: #666;
+            font-size: 0.95rem;
+border-top: 1px solid rgba(139, 115, 85, 0.15);
+            margin-top: 70px;
+            background: rgba(250, 248, 245, 0.7);
+            border-radius: 12px;
+        }
+        
+        .footer-disclaimer {
+            max-width: 750px;
+            margin: 25px auto;
+            padding: 25px;
+            background: rgba(139, 115, 85, 0.05);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .story-card {
+                padding: 30px 22px;
+                margin: 25px 0;
+            }
+            
+            h1 {
+                font-size: 2.1rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+                margin: 35px 0 20px;
+            }
+            
+            .personal-intro {
+                padding: 25px 20px;
+                font-size: 1.15rem;
+            }
+            
+            .author-signature {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 25px;
+            }
+            
+            .author-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .journey-step {
+                padding: 25px 25px 25px 75px;
+            }
+            
+            .journey-step:before {
+                left: 18px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.15rem;
+            }
+            
+            .action-btn {
+                padding: 20px 35px;
+                font-size: 1.15rem;
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo-box">
-        <div class="logo-svg" aria-hidden="true">
-          <!-- FinStart SVG logo -->
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="2" y="2" width="44" height="44" rx="10" fill="#e8fbf5"/>
-            <path d="M14 30c6-6 20-20 26-22" stroke="#4DB67D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="18" cy="18" r="3" fill="#2f7ced"/>
-          </svg>
-        </div>
-      </div>
-      <div>
-        <div class="brand-title">FinStart</div>
-        <div class="brand-sub">Сравнить. Подать. Получить.</div>
-      </div>
+<div class="story-card" style="animation-delay: 0.1s;">
+    <h1>А ведь я тоже думал, что выхода нет</h1>
+    
+    <div class="personal-intro">
+        Здравствуйте. Меня зовут Михаил, и если бы мне год назад сказали, что я буду писать эту статью — не поверил бы. <br>
+        Долги, испорченная кредитная история и чувство, что ты в ловушке. Знакомо? <br>
+        Тогда мне казалось, что все кончено. Оказалось — это было только начало пути к решению.
     </div>
-
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="small">Тел.: <a href="tel:+779993541727" style="color:var(--accent)">+7 999 354-17-27</a></div>
-      <div class="small">Email: <a href="mailto:mfo@.ru" style="color:var(--accent)">mfo@.ru</a></div>
-    </div>
-  </div>
-</header>
-
-<main class="container" role="main">
-
-  <!-- ticker -->
-  <div class="ticker" aria-live="polite">
-    <div class="dot" aria-hidden="true"></div>
-    <div class="text">Индикатор активности сайта</div>
-    <div class="marquee" id="marquee">Сбор данных…</div>
-  </div>
-
-  <!-- hero -->
-  <div class="hero">
-    <div class="hero-left hero-card">
-      <h1>Подберите варианты и увеличьте шанс одобрения</h1>
-      <p>Оставляйте заявки на нескольких сервисах — разные компании оценивают риски по-разному. Мы показываем только официальные сайты партнёров, а вы оформляете заявку там напрямую.</p>
-
-      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-        <div class="note">Совет: подайте заявки одновременно в 2–3 сервиса — шансы выше</div>
-        <div class="note">Важно: не вводите чужие данные, читайте условия на сайте партнёра</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- offers -->
-  <h2 class="section">Популярные предложения</h2>
-  <section class="grid" aria-label="предложения">
-    <!-- Offer 1 -->
-    <article class="offer" aria-labelledby="o1">
-      <div class="icon" aria-hidden="true">
-        <!-- svg icon -->
-        <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="10" fill="#E8FBF0"></rect>
-          <circle cx="24" cy="18" r="8" fill="#4DB67D"></circle>
-          <text x="50%" y="65%" text-anchor="middle" font-size="16" fill="#fff" font-weight="700">K</text>
-        </svg>
-      </div>
-      <div>
-        <h3 id="o1">еКапуста</h3>
-        <p>Онлайн оформление. Подходит для небольших сумм и короткого срока.</p>
-      </div>
-      <div class="cta">
-        <a class="btn" href="https://refk.in/05gxd" target="_blank" rel="noopener">Получить деньги</a>
-        <a class="btn secondary" href="https://refk.in/05gxd" target="_blank" rel="noopener">Подробнее</a>
-      </div>
-    </article>
-
-    <!-- Offer 2 -->
-    <article class="offer" aria-labelledby="o2">
-      <div class="icon" aria-hidden="true">
-        <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="12" fill="#EEF5FF"></rect>
-          <rect x="8" y="10" width="32" height="28" rx="6" fill="#3B82F6"></rect>
-          <text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">MZ</text>
-        </svg>
-      </div>
-      <div>
-        <h3 id="o2">МикроЗайм</h3>
-        <p>Минимум документов, быстрый переход на официальный сайт.</p>
-      </div>
-      <div class="cta">
-        <a class="btn" href="https://refk.in/05h9h" target="_blank" rel="noopener">Получить деньги</a>
-        <a class="btn secondary" href="https://refk.in/05h9h" target="_blank" rel="noopener">Подробнее</a>
-      </div>
-    </article>
-
-    <!-- Offer 3 -->
-    <article class="offer" aria-labelledby="o3">
-      <div class="icon" aria-hidden="true">
-        <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="10" fill="#F6FFF7"></rect>
-          <circle cx="24" cy="24" r="12" fill="#9CCC65"></circle>
-          <text x="50%" y="65%" text-anchor="middle" font-size="16" fill="#fff" font-weight="700">L</text>
-        </svg>
-      </div>
-      <div>
-        <h3 id="o3">Lime</h3>
-        <p>Современный мобильный интерфейс и быстрое решение онлайн.</p>
-      </div>
-      <div class="cta">
-        <a class="btn" href="https://refk.in/05h9i" target="_blank" rel="noopener">Получить деньги</a>
-        <a class="btn secondary" href="https://refk.in/05h9i" target="_blank" rel="noopener">Подробнее</a>
-      </div>
-    </article>
-
-    <!-- Offer 4 -->
-    <article class="offer" aria-labelledby="o4">
-      <div class="icon" aria-hidden="true">
-        <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="10" fill="#FFF7EF"></rect>
-          <rect x="6" y="6" width="36" height="36" rx="8" fill="#FF9800"></rect>
-          <text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">MC</text>
-        </svg>
-      </div>
-      <div>
-        <h3 id="o4">Max.Credit</h3>
-        <p>Гибкие условия погашения и удобная личная кабинета на сайте партнёра.</p>
-      </div>
-      <div class="cta">
-        <a class="btn" href="https://refk.in/05h9j" target="_blank" rel="noopener">Получить деньги</a>
-        <a class="btn secondary" href="https://refk.in/05h9j" target="_blank" rel="noopener">Подробнее</a>
-      </div>
-    </article>
-
-    <!-- Offer 5 -->
-    <article class="offer" aria-labelledby="o5">
-      <div class="icon" aria-hidden="true">
-        <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="12" fill="#F4F1FF"></rect>
-          <path d="M12 34c6-6 18-18 22-20l4 4c-2 4-14 16-20 20-2 0-6 0-6 0z" fill="#673AB7" opacity="0.95"/>
-          <text x="50%" y="68%" text-anchor="middle" font-size="14" fill="#fff" font-weight="700" font-family="Arial">R</text>
-        </svg>
-      </div>
-      <div>
-        <h3 id="o5">Rocketman</h3>
-        <p>Быстрый переход на официальный сайт компании — удобная заявка.</p>
-      </div>
-      <div class="cta">
-        <a class="btn" href="https://refk.in/05h9k" target="_blank" rel="noopener">Получить деньги</a>
-        <a class="btn secondary" href="https://refk.in/05h9k" target="_blank" rel="noopener">Подробнее</a>
-      </div>
-    </article>
-  </section>
-
-  <!-- features / why us -->
-  <h2 class="section">Почему стоит работать с нами</h2>
-  <div class="features" role="list">
-    <div class="feature" role="listitem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#4DB67D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="7" width="18" height="14" rx="3"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/>
-      </svg>
-      <div>
-        <h4>Проверенные партнёры</h4>
-        <p>Мы публикуем только официальные ссылки на сайты компаний — вы оформляете заявку напрямую у кредитора.</p>
-      </div>
-    </div>
-
-    <div class="feature" role="listitem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2f7ced" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 1v22"/><path d="M5 7h14"/>
-      </svg>
-      <div>
-        <h4>Увеличиваем шанс на одобрение</h4>
-        <p>Подав заявки в несколько сервисов, вы повышаете вероятность получения подходящего предложения.</p>
-      </div>
-    </div>
-
-    <div class="feature" role="listitem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#ff9a4a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 6 2-7L2 9h7z"/>
-      </svg>
-      <div>
-        <h4>Прозрачные советы</h4>
-        <p>Мы коротко объясняем порядок действий и возможные риски — всё, чтобы вы приняли осознанное решение.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- How to get a loan -->
-  <div class="section">
-    <div class="card">
-      <h2>Как получить заём?</h2>
-      <ol class="list">
-        <li><strong>Выберите предложение.</strong> Просмотрите и сравните варианты, выберите подходящий и нажмите «Получить деньги».</li>
-        <li><strong>Подайте несколько заявок.</strong> Заполните заявку на сайте МФО. Рекомендуем обратиться в 2–3 компании — это увеличивает шансы.</li>
-        <li><strong>Получите деньги.</strong> Ответ обычно приходит в течение 15 минут — до одного рабочего дня. При положительном решении деньги приходят на карту или счёт.</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h2>Как погасить заём?</h2>
-      <ol class="list">
-        <li><strong>Через приложение банка.</strong> Перевод на реквизиты кредитора.</li>
-        <li><strong>Банковской картой.</strong> В личном кабинете кредитора оплатить картой.</li>
-        <li><strong>Наличными.</strong> Через платёжные терминалы или офис партнёра (если доступно).</li>
-      </ol>
-    </div>
-  </div>
-
-  <!-- Creditors info -->
-  <div class="section">
-    <div class="card">
-      <h2>Информация о кредиторах</h2>
-      <p class="small">Условия получения: Первый заём до 10 000 рублей выдается бесплатно при своевременном погашении. При просрочке — неустойka 0,10% в день, но не более 10% от суммы. При длительной просрочке информация может быть передана в БКИ.</p>
-
-      <h3 style="margin-top:12px">Пример расчёта (пример, иллюстрация)</h3>
-      <p class="small">Заём 10 000 ₽ на 61 день, ставка 0,8% в день (≈292% годовых). Проценты за 61 день ≈ 4 880 ₽. Общая сумма к возврату — 14 880 ₽.</p>
-
-      <h3 style="margin-top:12px">Последствия невыплаты</h3>
-      <p class="small">При просрочке начисляются штрафы и проценты. Кредиторы обычно предоставляют 3 рабочих дня на корректировку. При длительной просрочке возможна передача данных в реестр должников и коллекторское взыскание.</p>
-
-      <p class="small" style="margin-top:12px">Процентные ставки варьируются: по займам — 0–292% годовых; по потребительским кредитам — около 17–31% годовых. Конкретные условия уточняйте на сайте кредитора при оформлении заявки. Предложение не является офертой.</p>
-    </div>
-  </div>
-
-  <!-- Legal & PD -->
-  <div class="section">
-    <div class="card">
-      <h2>Сервис подбора займов — юридическая информация</h2>
-      <p class="small">Сервис FinStart. ОГРН: . Юр. адрес: . Сервис находится в реестре операторов, осуществляющих обработку персональных данных: .</p>
-
-      <p class="small">Вся информация носит информационный характер и не является публичной офертой (ст. 437 ГК РФ). Нажатие кнопки «Получить деньги» и заполнение форм не налагает на владельцев сайта обязательств. Все материалы являются собственностью владельца сайта или размещаются по соглашениям с партнёрами.</p>
-
-      <p class="small">Для аналитики на сайте может использоваться система статистики — она собирает обезличенные данные о посещениях и действиях. Сотрудники компании могут иметь доступ к этой аналитике в целях улучшения сервиса. Регистрируясь или оставляя персональные данные на сайтах партнёров, вы даёте согласие на их обработку в соответствии с политикой партнёра.</p>
-
-      <p class="small">Данное соглашение действует бессрочно и может быть отозвано путем направления заявления «Отказ от рекламных предложений и услуг подбора», указав номер телефона, на который была оставлена заявка.</p>
-
-      <p class="small"><strong>Важно:</strong> предоплату требуют только мошенники — не переводите деньги незнакомым лицам до подписания договора с кредитором.</p>
-    </div>
-  </div>
-
-  <!-- button to open two offers -->
-  <div style="margin-top:18px;display:flex;justify-content:center;gap:12px">
-    <a class="btn" href="#" onclick="openTwo(event)">Подать заявку сразу в 2 сервиса</a>
-    <a class="btn secondary" href="mailto:mfo@.ru">Связаться с нами</a>
-  </div>
-
-  <div style="height:20px"></div>
-
-  <!-- FAQs -->
-  <h2 class="section">Частые вопросы</h2>
-  <div class="card">
-    <div style="margin-bottom:10px">
-      <strong>Мы выдаём займы?</strong>
-      <p class="small">Нет. Мы — информационный сервис, направляем на сайты партнёров.</p>
-    </div>
-    <div style="margin-bottom:10px">
-      <strong>Как увеличить шанс одобрения?</strong>
-      <p class="small">Подайте заявки в 2–3 сервиса, выберите разные суммы и сроки, чтобы увеличить вероятность подобрать то, что одобрят.</p>
-    </div>
-    <div>
-      <strong>Собираете ли вы данные?</strong>
-      <p class="small">Мы не собираем персональные данные на этой странице. Персональные данные обрабатываются только на сайтах партнёров.</p>
-    </div>
-  </div>
-
-  <!-- floating CTA placeholder -->
-  <div style="height:10px"></div>
-  <div class="float-wrap">
-    <a id="floatBtn" class="float-cta" href="https://refk.in/05gxd" target="_blank" rel="noopener">Подобрать предложения</a>
-  </div>
-
-</main>
-
-<footer class="footer" role="contentinfo">
-  <div class="contacts">
-    <div><strong>Контакты</strong></div>
-    <div>Тел.: <a href="tel:+779993541727">+7 999 354-17-27</a></div>
-    <div>Email: <a href="mailto:mfo@.ru">mfo@.ru</a></div>
-  </div>
-
-  <div class="legal">
-    <div><a href="#" onclick="openModal('privacyModal');return false">Политика конфиденциальности</a></div>
-    <div style="margin-top:8px"><a href="#" onclick="openModal('agreementModal');return false">Пользовательское соглашение</a></div>
-    <div style="margin-top:10px" class="small">Информация носит справочный характер и не является офертой. Условия уточняйте на сайтах партнёров.</div>
-  </div>
-</footer>
-
-<!-- Privacy Modal -->
-<div id="privacyModal" class="modal" aria-hidden="true">
-  <div class="inner">
-    <button class="close" onclick="closeModal('privacyModal')">&times;</button>
-    <h3>Политика конфиденциальности</h3>
-    <p>Данный сайт является информационным агрегатором. Мы не собираем и не передаём персональные данные пользователей. Все переходы ведут на официальные сайты партнёров, где регистрация и обработка данных выполняется компаниями-партнёрами в соответствии с их политиками.</p>
-    <p>Контакты для связи: телефон <strong>+7 999 354-17-27</strong>, Email: <strong>mfo@.ru</strong>.</p>
-    <p>Если у вас возникли вопросы по защите персональных данных, свяжитесь с нами по указанным контактам.</p>
-  </div>
 </div>
 
-<!-- Agreement Modal -->
-<div id="agreementModal" class="modal" aria-hidden="true">
-  <div class="inner">
-    <button class="close" onclick="closeModal('agreementModal')">&times;</button>
-    <h3>Пользовательское соглашение</h3>
-    <p>1. Общие положения. Данный сайт предоставляет информационные услуги по подбору финансовых предложений. Сайт не является финансовым учреждением и не оказывает финансовых услуг.</p>
-    <p>2. Права и обязанности. Пользователь самостоятельно принимает решение о переходе на сайты партнёров и несёт ответственность за предоставляемые ими данные. Сайт предоставляет информацию «как есть» и не гарантирует полноты и актуальности данных.</p>
-    <p>3. Ограничение ответственности. Сайт не несёт ответственности за действия партнёров и результаты рассмотрения заявок. Любые споры решаются в соответствии с применимым законодательством.</p>
-    <p>Для замечаний и вопросов — используйте указанные контакты.</p>
-  </div>
+<div class="story-card" style="animation-delay: 0.2s;">
+    <h2>Тот самый момент отчаяния</h2>
+    
+    <p>Наверное, вы тоже проходили через это: заполняете заявку за заявкой, а в ответ — холодное "отклонено". Сначала злишься, потом опускаются руки. Я потратил на это почти две недели.</p>
+    
+    <div class="thought">
+        <p>Самое обидное было даже не в отказе, а в ощущении беспомощности. Система не видит тебя как человека, только как цифры в базе. И эти цифры говорят "нет".</p>
+    </div>
+    
+    <p>Потом я наткнулся на комментарий в интернете. Кто-то в похожей ситуации упомянул, что есть <strong>сервисы, которые специализируются именно на сложных случаях</strong>. Не МФО, а именно посредники, которые знают, куда обратиться.</p>
+    
+    <!-- ПЕРВАЯ КНОПКА ДЛЯ КОНВЕРСИИ -->
+    <a href="https://refk.in/05hjd" class="action-btn" id="firstButton">
+        Проверить, есть ли шанс в моей ситуации
+    </a>
+</div>
+
+<div class="story-card" style="animation-delay: 0.3s;">
+    <h2>Как это работает (объясняю так, как понял сам)</h2>
+    
+    <p>Когда я разобрался, все оказалось логично. Представьте:</p>
+    
+    <ul class="heart-list">
+        <li><strong>Вы не ходите по всем магазинам в городе</strong> — вы идете к другу, который знает, где что продается и по какой цене</li>
+        <li><strong>Этот "друг"</strong> — и есть сервис подбора. У него есть данные, какие МФО более лояльны, какие рассматривают заявки дольше, но принимают чаще</li>
+        <li><strong>Одна анкета вместо двадцати</strong> — экономия времени и нервов, которых и так мало</li>
+        <li><strong>Честная оценка</strong> — хороший сервис не станет давать ложных надежд, а скажет прямо: "шансы низкие, но можно попробовать"</li>
+    </ul>
+    
+    <div class="key-point">
+<h3>Самый важный момент, который я усвоил</h3>
+        <p>Ни один сервис, ни одна МФО <strong>не гарантирует одобрение на 100%</strong>. Но есть разница между "гарантировать" и "дать реальный шанс". Первое — ложь, второе — честный подход к делу.</p>
+    </div>
+</div>
+
+<div class="story-card" style="animation-delay: 0.4s;">
+    <h2>Мой путь: от скепсиса к результату</h2>
+    
+    <p>Я выбрал "еКапусту" — честно говоря, потому что их сайт выглядел менее "кричаще", чем у других. И вот что произошло:</p>
+    
+    <div class="journey-steps">
+        <div class="journey-step">
+            <h3>Шаг 1: Признание проблемы</h3>
+            <p>Заполняя анкету, я впервые честно указал все свои просрочки. Не пытался что-то скрыть или приукрасить. Это было непривычно, но честно.</p>
+        </div>
+        
+        <div class="journey-step">
+            <h3>Шаг 2: Несколько минут неопределенности</h3>
+            <p>Система анализировала данные 6 минут. Я пил чай и смотрел в окно, готовясь к привычному "нет".</p>
+        </div>
+        
+        <div class="journey-step">
+            <h3>Шаг 3: Неожиданный результат</h3>
+            <p>Мне показали не один, а четыре варианта от разных МФО. Ключевая фраза: "готовы рассмотреть вашу заявку". Не "одобрят", а именно "рассмотрят".</p>
+        </div>
+        
+        <div class="journey-step">
+            <h3>Шаг 4: Выбор и решение</h3>
+            <p>Я выбрал вариант с самыми адекватными условиями, прошел окончательное оформление непосредственно в МФО и получил деньги.</p>
+        </div>
+    </div>
+    
+    <div class="takeaway">
+        <h3>Что я вынес из этого опыта:</h3>
+        <p>1. <strong>Честность окупается</strong> — скрывать проблемы бессмысленно, система все равно их найдет</p>
+        <p>2. <strong>Время — тоже ресурс</strong> — неделя самостоятельных поисков против 40 минут через сервис</p>
+        <p>3. <strong>Есть разница между "невозможно" и "сложно"</strong> — первое отнимает надежду, второе оставляет шанс</p>
+        <p>4. <strong>Главное — начать с правильного места</strong> — не бросаться в первую попавшуюся МФО, а найти того, кто знает путь</p>
+    </div>
+</div>
+
+<div class="story-card" style="animation-delay: 0.5s;">
+    <h2>Кому может помочь такой подход</h2>
+    
+    <p>Исходя из моего опыта и разговоров с другими, этот способ имеет смысл пробовать, если:</p>
+    
+    <ul class="heart-list">
+        <li>У вас есть <strong>просрочки в кредитной истории</strong>, даже если вы их уже закрыли</li>
+        <li>Вы сейчас <strong>работаете, но в прошлом были финансовые трудности</strong></li>
+        <li>Вам <strong>нужны деньги срочно</strong>, а банки отказывают из-за формальных причин</li>
+        <li>Вы уже <strong>пробовали разные варианты</strong> и устали от шаблонных отказов</li>
+        <li>Вы <strong>готовы честно указать свою ситуацию</strong> и реалистично оценивать шансы</li>
+    </ul>
+    
+    <div class="thought">
+        <p>Если хоть один пункт про вас — возможно, стоит попробовать. Худшее, что может случиться — вы потратите 10 минут и получите честный ответ. Лучшее — найдете решение своей проблемы.</p>
+    </div>
+    
+    <!-- ВТОРАЯ КНОПКА ДЛЯ КОНВЕРСИИ -->
+    <a href="https://refk.in/05hjd" class="action-btn" id="secondButton">
+        Попробовать этот способ
+    </a>
+    
+    <p style="text-align: center; font-size: 0.95rem; color: #777; margin-top: 20px;">
+        На заполнение анкеты уходит около 5-7 минут. Это просто проверка возможностей, никаких обязательств.
+    </p>
+</div>
+
+<div class="author-signature" style="animation-delay: 0.7s;">
+    <div class="author-avatar">М</div>
+    <div>
+        <h3 style="margin-top: 0;">Михаил, 38 лет</h3>
+        <p>Работаю в логистике, живу в Подмосковье. Финансовые трудности начались после того, как пришлось оплачивать дорогое лечение близкому человеку. Ситуация выправилась, но кредитная история осталась поврежденной.</p>
+        <p><em>"Я написал этот текст, потому что помню, как сам искал в интернете хоть какую-то надежду.
+Если мой опыт поможет хотя бы одному человеку не опустить руки — значит, я сделал это не зря."</em></p>
+    </div>
+</div>
+
+<div class="site-footer">
+    <div class="footer-disclaimer">
+        <p><strong>Откровенно о важном:</strong> Это мой личный опыт и субъективное мнение. Я не являюсь сотрудником каких-либо финансовых организаций и не получаю денег за то, что вы оформите займ. Я делюсь тем, что сработало лично для меня в похожей ситуации.</p>
+        
+        <p>Сервис "еКапуста" выступает в роли информационного посредника (агрегатора предложений). Они не выдают займы самостоятельно, а помогают найти подходящие варианты среди множества МФО. Все решения о выдаче займа принимаются микрофинансовыми организациями индивидуально по каждой заявке.</p>
+        
+        <p><strong>Пожалуйста, будьте финансово ответственны.</strong> Брать займ стоит только если вы уверены в своей способности его вернуть в установленный срок. Просрочки платежей ведут к штрафам и дальнейшему ухудшению кредитной истории.</p>
+    </div>
+    
+    <p>© 2024 | История из личного опыта<br>
+    Этот сайт создан для обмена личным опытом. Мы не являемся кредитной организацией, не выдаем займы и не принимаем финансовых решений.</p>
 </div>
 
 <script>
-/* Floating CTA visibility */
-(function(){
-  const btn = document.getElementById('floatBtn');
-  function check(){ btn.style.display = window.scrollY > 320 ? 'block' : 'none'; }
-  window.addEventListener('scroll', check, {passive:true});
-  check();
-})();
-
-/* Open two offers in separate tabs (eKapusta + MicroZaim) */
-function openTwo(e){
-  e.preventDefault();
-  window.open('https://refk.in/05gxd', '_blank');
-  window.open('https://refk.in/05h9h', '_blank');
-}
-
-/* modal controls */
-function openModal(id){
-  document.getElementById(id).style.display = 'flex';
-  document.getElementById(id).setAttribute('aria-hidden','false');
-}
-function closeModal(id){
-  document.getElementById(id).style.display = 'none';
-  document.getElementById(id).setAttribute('aria-hidden','true');
-}
-window.onclick = function(e){
-  document.querySelectorAll('.modal').forEach(m=>{
-    if(e.target === m) { m.style.display = 'none'; m.setAttribute('aria-hidden','true'); }
-  });
-};
-
-/* FAQ toggles (in this design, FAQs are static blocks; expand if needed) */
-
-/* marquee-like ticker: aggregated anonymized events (no personal data) */
-(function tickerSim(){
-  const marquee = document.getElementById('marquee');
-  // messages are aggregated / anonymized — not personal
-  const msgs = [
-    'Сегодня отправлено заявок: ' + (20 + Math.floor(Math.random()*50)),
-    'За 24 часа обработано положительных решений: ' + (5 + Math.floor(Math.random()*10)),
-    'Среднее время ответа партнёра: до 1 рабочего дня',
-    'Рекомендация: отправляйте 2–3 заявки для лучшего результата',
-    'Последняя обновл.: предложения и условия партнёров актуальны'
-  ];
-  let idx = 0;
-  function tick(){
-    marquee.textContent = msgs[idx % msgs.length];
-    idx++;
-    setTimeout(tick, 3000 + Math.random()*2000);
-  }
-  tick();
-})();
-
-/* reveal animations for cards */
-window.addEventListener('load', ()=>{
-  document.querySelectorAll('.grid .offer').forEach((el, i)=>{
-    setTimeout(()=> el.classList.add('show'), i*80);
-  });
-});
+    // Трекинг кликов для обеих кнопок
+    document.addEventListener('DOMContentLoaded', function() {
+        // Назначаем одну и ту же ссылку на обе кнопки
+        const partnerLink = "https://refk.in/05hjd";
+        
+        // Добавляем UTM-метки для аналитики (можно настроить разные)
+        const firstButtonLink = partnerLink + (partnerLink.includes('?') ? '&' : '?') + 'utm_source=story&utm_medium=button1&utm_campaign=personal_exp';
+        const secondButtonLink = partnerLink + (partnerLink.includes('?') ? '&' : '?') + 'utm_source=story&utm_medium=button2&utm_campaign=personal_exp';
+        
+        document.getElementById('firstButton').href = firstButtonLink;
+        document.getElementById('secondButton').href = secondButtonLink;
+        
+        // Можно добавить подтверждение перед переходом (опционально)
+        const buttons = document.querySelectorAll('.action-btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Небольшая пауза для ощущения "обдумывания"
+                setTimeout(() => {
+                    // Если хотите убрать подтверждение - закомментируйте следующие 4 строки
+                    if (!confirm('Сейчас вы перейдете на сайт сервиса для проверки возможности. Продолжить?')) {
+                        e.preventDefault(); // Отменяем переход, если пользователь сказал "нет"
+                    }
+                }, 400);
+            });
+        });
+        
+        // Плавное появление элементов при прокрутке
+        const cards = document.querySelectorAll('.story-card, .author-signature');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.08 });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(25px)';
+            card.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            observer.observe(card);
+        });
+    });
 </script>
 
 </body>
